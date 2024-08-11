@@ -1,11 +1,9 @@
 name: tfsec
-
 on:
   push:
     branches:
       - main
   pull_request:
-
 jobs:
   tfsec:
     name: tfsec
@@ -13,29 +11,8 @@ jobs:
 
     steps:
       - name: Clone repo
-        uses: actions/checkout@v4
-
-      - name: Run tfsec
-        id: tfsec
-        run: |
-          tfsec > tfsec_output.txt
-
-      - name: Post tfsec results as PR comment
-        if: ${{ github.event_name == 'pull_request' }}
-        uses: actions/github-script@v6
+        uses: actions/checkout@master
+      - name: tfsec
+        uses: aquasecurity/tfsec-action@v1.0.0
         with:
-          script: |
-            const fs = require('fs');
-            const output = fs.readFileSync('tfsec_output.txt', 'utf8');
-            const comment = `
-            ## tfsec Scan Results
-            \`\`\`
-            ${output}
-            \`\`\`
-            `;
-            github.rest.issues.createComment({
-              issue_number: github.context.issue.number,
-              owner: github.context.repo.owner,
-              repo: github.context.repo.repo,
-              body: comment,
-            });
+          soft_fail: true
