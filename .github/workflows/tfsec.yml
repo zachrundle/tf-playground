@@ -4,6 +4,7 @@ on:
     branches:
       - main
   pull_request:
+
 jobs:
   tfsec:
     name: tfsec
@@ -11,8 +12,36 @@ jobs:
 
     steps:
       - name: Clone repo
-        uses: actions/checkout@master
-      - name: tfsec
+        uses: actions/checkout@v4
+
+      - name: Run tfsec
+        id: tfsec
         uses: aquasecurity/tfsec-action@v1.0.0
         with:
           soft_fail: true
+
+      - name: Extract tfsec results
+        id: extract
+        run: |
+          results=$(grep -A 6 "results" ${{ steps.tfsec.outputs.report }} | tail -n 6)
+          echo "TFSEC_RESULTS<<EOF" >> $GITHUB_ENV
+          echo "$results" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Post tfsec summary as PR comment
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const comment = `
+            ## tfsec Scan Summary
+            \`\`\`
+            ${process.env.TFSEC_RESULTS}
+            \`\`\`
+            `;
+            github.rest.issues.createComment({
+              issue_number: github.context.issue.number,
+              owner: github.context.repo.owner,
+              repo: github.context.repo.repo,
+              body: comment,
+            });
