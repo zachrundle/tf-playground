@@ -33,16 +33,21 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const { issue, repo } = github.context;
-            const comment = `
+            const tfsecResults = process.env.TFSEC_RESULTS;
+            const issueNumber = github.context.payload.pull_request.number;
+            const repoName = github.context.repo.repo;
+            const repoOwner = github.context.repo.owner;
+
+            const commentBody = `
             ## tfsec Scan Summary
             \`\`\`
-            ${process.env.TFSEC_RESULTS}
+            ${tfsecResults}
             \`\`\`
             `;
-            github.rest.issues.createComment({
-              issue_number: issue.number,
-              owner: repo.owner,
-              repo: repo.repo,
-              body: comment,
+
+            await github.rest.issues.createComment({
+              owner: repoOwner,
+              repo: repoName,
+              issue_number: issueNumber,
+              body: commentBody,
             });
