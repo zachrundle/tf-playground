@@ -23,7 +23,7 @@ jobs:
       - name: Extract tfsec results
         id: extract
         run: |
-          results=$(grep -A 6 "results" ${{ steps.tfsec.outputs.report }} | tail -n 6)
+          results=$(grep -A 6 "results" tfsec_output.txt | tail -n 6)
           echo "TFSEC_RESULTS<<EOF" >> $GITHUB_ENV
           echo "$results" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
@@ -33,6 +33,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
+            const { issue, repo } = github.context;
             const comment = `
             ## tfsec Scan Summary
             \`\`\`
@@ -40,8 +41,8 @@ jobs:
             \`\`\`
             `;
             github.rest.issues.createComment({
-              issue_number: github.context.issue.number,
-              owner: github.context.repo.owner,
-              repo: github.context.repo.repo,
+              issue_number: issue.number,
+              owner: repo.owner,
+              repo: repo.repo,
               body: comment,
             });
