@@ -15,9 +15,8 @@ jobs:
       - uses: hashicorp/setup-terraform@v3
         with:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+          soft_fail: true
 
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
-        with:
-          soft_fail: true
