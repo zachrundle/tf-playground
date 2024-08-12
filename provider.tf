@@ -14,7 +14,7 @@ provider "aws" {
   allowed_account_ids = [var.aws_account]
 
   assume_role {
-    role_arn     = "arn:aws:iam::${var.aws_account}:role/svc_terraform"
+    role_arn     = "arn:aws:iam::${var.aws_account}:role/terraform-service"
     session_name = "Terraform"
   }
 

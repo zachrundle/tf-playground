@@ -1,0 +1,21 @@
+name: tfactions
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+jobs:
+  tfactions:
+    name: tfactions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
