@@ -13,5 +13,5 @@ variable "aws_account" {
 }
 
 variable "create_eks" {
-    default = false
+  default = false
 }
