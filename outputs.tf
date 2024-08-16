@@ -7,6 +7,6 @@ output "private_subnets" {
   value = module.network.private_subnet_cidr_block
 }
 
-output "eks_endpoint" {
-  value = module.eks.endpoint
-}
+# output "eks_endpoint" {
+#   value = module.eks.endpoint
+# }
