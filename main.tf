@@ -6,8 +6,7 @@ module "network" {
 }
 module "eks" {
   source  = "./modules/eks"
-  version = "~> 20.0"
-
+  create_eks = false
   cluster_name    = "${var.name}-cluster"
   cluster_version = "1.30"
 
