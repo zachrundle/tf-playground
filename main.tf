@@ -5,8 +5,8 @@ module "network" {
   vpc_cidr   = "10.0.0.0/16"
 }
 module "eks" {
-  source  = "./modules/eks"
-  create_eks = false
+  source          = "./modules/eks"
+  create_eks      = false
   cluster_name    = "${var.name}-cluster"
   cluster_version = "1.30"
 
