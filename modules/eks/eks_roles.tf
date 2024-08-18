@@ -11,8 +11,9 @@ data "aws_iam_policy_document" "assume_role" {
   }
 }
 
-resource "aws_iam_role" "example" {
-  name               = "eks-cluster-example"
+# IAM role to allow the Kubernetes control plane to manage AWS resources on your behalf. This property cannot be changed after the cluster is created.
+resource "aws_iam_role" "this" {
+  name               = "eks-cluster"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
