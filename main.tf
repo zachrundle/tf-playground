@@ -19,13 +19,13 @@ module "permission_sets" {
 
   permission_sets = [
     {
-      name               = "AdministratorAccess",
-      description        = "Allow full access to the account",
-      relay_state        = "",
-      session_duration   = "",
-      tags               = {},
-      inline_policy      = "",
-      policy_attachments = ["arn:aws:iam::aws:policy/AdministratorAccess"]
+      name                                = "AdministratorAccess",
+      description                         = "Allow full access to the account",
+      relay_state                         = "",
+      session_duration                    = "",
+      tags                                = {},
+      inline_policy                       = "",
+      policy_attachments                  = ["arn:aws:iam::aws:policy/AdministratorAccess"]
       customer_managed_policy_attachments = []
-    }]
+  }]
 }

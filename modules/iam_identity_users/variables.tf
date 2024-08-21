@@ -7,7 +7,7 @@ variable "users" {
 }
 
 variable "email_domain" {
-    description = "Domain used for user email accounts"
-    type = string
-    default = "example.com"
+  description = "Domain used for user email accounts"
+  type        = string
+  default     = "example.com"
 }
