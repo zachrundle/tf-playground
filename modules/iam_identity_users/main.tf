@@ -1,3 +1,6 @@
+# Fetching SSO Instance
+data "aws_ssoadmin_instances" "this" {}
+
 # Create SSO Groups
 resource "aws_identitystore_group" "this" {
   for_each         = { for group_name in toset(flatten([for user in values(var.users) : user.groups])) : group_name => group_name }
