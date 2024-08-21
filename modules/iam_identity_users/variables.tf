@@ -3,6 +3,7 @@ variable "users" {
   type = map(object({
     first_name = string
     last_name  = string
+    groups     = set(string)  # Set of group names the user belongs to
   }))
 }
 

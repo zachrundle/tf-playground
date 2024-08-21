@@ -1,6 +1,16 @@
+# Fetching SSO Instance
 data "aws_ssoadmin_instances" "this" {}
 
+# Create SSO Groups
+resource "aws_identitystore_group" "this" {
+  for_each         = toset(flatten([for user in values(var.users) : user.groups]))
 
+  display_name      = each.key
+  description       = format("SSO group for %s", each.key)
+  identity_store_id = tolist(data.aws_ssoadmin_instances.this.identity_store_ids)[0]
+}
+
+# Create SSO Users
 resource "aws_identitystore_user" "this" {
   for_each = var.users
 
@@ -17,4 +27,13 @@ resource "aws_identitystore_user" "this" {
   emails {
     value = join("@", [format("%s.%s", lower(each.value.first_name), lower(each.value.last_name)), var.email_domain])
   }
+}
+
+# Assign Users to Groups
+resource "aws_identitystore_group_membership" "this" {
+  for_each = { for user_key, user in var.users : user_key => user }
+
+  identity_store_id = tolist(data.aws_ssoadmin_instances.this.identity_store_ids)[0]
+  group_id          = aws_identitystore_group.this[each.value.groups].id
+  member_id         = aws_identitystore_user.this[each.key].id
 }
