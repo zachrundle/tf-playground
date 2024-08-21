@@ -31,9 +31,18 @@ resource "aws_identitystore_user" "this" {
 
 # Assign Users to Groups
 resource "aws_identitystore_group_membership" "this" {
-  for_each = { for user_key, user in var.users : user_key => { for group_name in user.groups : group_name => aws_identitystore_group.this[group_name].id } }
+  for_each = {
+    for user_key, user in var.users :
+    user_key => {
+      for group_name in user.groups :
+      format("%s-%s", user_key, group_name) => {
+        group_id  = aws_identitystore_group.this[group_name].id,
+        member_id = aws_identitystore_user.this[user_key].id,
+      }
+    }
+  }
 
   identity_store_id = tolist(data.aws_ssoadmin_instances.this.identity_store_ids)[0]
-  group_id          = each.value[group_name]
-  member_id         = aws_identitystore_user.this[each.key].id
+  group_id          = each.value.group_id
+  member_id         = each.value.member_id
 }
