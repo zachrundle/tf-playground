@@ -10,7 +10,7 @@ resource "aws_identitystore_user" "this" {
 
   name {
     given_name  =  users.first_name
-    family_name =  users.last_namee
+    family_name =  users.last_name
   }
 
   emails {
