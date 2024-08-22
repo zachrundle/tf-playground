@@ -3,13 +3,6 @@ data "aws_ssoadmin_instances" "this" {}
 
 # Create SSO Groups
 resource "aws_identitystore_group" "this" {
-  identity_store_id = tolist(data.aws_ssoadmin_instances.this.identity_store_ids)[0]
-  display_name      = "MyGroup"
-  description       = "Some group name"
-}
-
-
-resource "aws_identitystore_group" "this" {
   for_each         = { for group_name in var.groups : group_name => group_name }
   display_name      = each.value
   description       = format("SSO group for %s", each.value)
