@@ -12,3 +12,9 @@ variable "email_domain" {
   type        = string
   default     = "example.com"
 }
+
+variable "groups" {
+  description = "List of IAM identity center groups to create"
+  type        = set(string)
+  default     = []
+}
