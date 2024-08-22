@@ -1,5 +1,6 @@
 module "users" {
   source = "./modules/iam_identity_users"
+  groups = ["administrators","developers","qa","networking"]
   
   users = {
     "Zach Rundle" = {
