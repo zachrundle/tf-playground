@@ -11,7 +11,6 @@ A module that will configure an EKS cluster and the required IAM role and permis
 ### Spot Fleet
 A module to configure spot fleets and acceptable spot server types that can be used with the EKS module. A future enhancement will be to also leverage Karpenter to help with autoscaling.
 
-###
-VPC
+### VPC
 A module that will configure the VPC and subnets (based on the amount of AZs in that region). Also has an option to configure a NAT gateway.
 
