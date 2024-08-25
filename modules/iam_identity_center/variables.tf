@@ -1,5 +1,5 @@
 variable "permission_sets" {
-  type = list(object({
+  type = map(object({
     name               = string
     description        = string
     relay_state        = string
