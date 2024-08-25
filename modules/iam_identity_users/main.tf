@@ -29,6 +29,6 @@ resource "aws_identitystore_user" "this" {
 resource "aws_identitystore_group_membership" "this" {
   for_each =  var.users
   identity_store_id = tolist(data.aws_ssoadmin_instances.this.identity_store_ids)[0]
-  group_id          = aws_identitystore_group.this[each.value.groups].id
+  group_id          = aws_identitystore_group.this[each.value.groups].group_id
   member_id         = aws_identitystore_user.this[each.key].user_id
 }
