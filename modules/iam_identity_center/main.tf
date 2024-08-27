@@ -65,17 +65,12 @@ resource "aws_ssoadmin_customer_managed_policy_attachment" "this" {
   }
 }
 
-# Fetching SSO Instance
-data "aws_ssoadmin_instances" "this" {}
-
-# Create SSO Groups
 resource "aws_identitystore_group" "this" {
   for_each          = { for group_name in var.groups : group_name => group_name }
   display_name      = each.value
   identity_store_id = tolist(data.aws_ssoadmin_instances.this.identity_store_ids)[0]
 }
 
-# Create SSO Users
 resource "aws_identitystore_user" "this" {
   for_each = var.users
   identity_store_id = tolist(data.aws_ssoadmin_instances.this.identity_store_ids)[0]
@@ -92,7 +87,6 @@ resource "aws_identitystore_user" "this" {
   }
 }
 
-# Assign Users to Groups
 resource "aws_identitystore_group_membership" "this" {
   for_each =  var.users
   identity_store_id = tolist(data.aws_ssoadmin_instances.this.identity_store_ids)[0]

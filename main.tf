@@ -28,4 +28,18 @@ module "permission_sets" {
       policy_attachments                  = ["arn:aws:iam::aws:policy/AdministratorAccess"]
       customer_managed_policy_attachments = []
   }]
+  groups = ["administrators", "developers", "networking"]
+
+  users = {
+    "Zach Rundle" = {
+      first_name = "Zach"
+      last_name  = "Rundle"
+      groups     = "administrators"
+    },
+    "Maverick Dog" = {
+      first_name = "Maverick"
+      last_name  = "Dog"
+      groups     = "developers"
+    },
+  }
 }
