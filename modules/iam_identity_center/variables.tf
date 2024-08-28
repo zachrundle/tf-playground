@@ -36,8 +36,6 @@ variable "groups" {
   description = "List of IAM identity center groups to create"
   type        = set(string)
   default     = []
-}
 
 variable "aws_account" {
   description = "Account number to create aws resources in. This variable should be defined in the terraform cloud workspace settings"
-}
