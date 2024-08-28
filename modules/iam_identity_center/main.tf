@@ -94,13 +94,13 @@ resource "aws_identitystore_group_membership" "this" {
   member_id         = aws_identitystore_user.this[each.key].user_id
 }
 
-# resource "aws_ssoadmin_account_assignment" "this" {
-#   instance_arn       = tolist(data.aws_ssoadmin_instances.this.arns)[0]
-#   permission_set_arn = data.aws_ssoadmin_permission_set.this.arn
+resource "aws_ssoadmin_account_assignment" "this" {
+  instance_arn       = tolist(data.aws_ssoadmin_instances.this.arns)[0]
+  permission_set_arn = aws_ssoadmin_permission_set.this[each.value.policy_set].arn
 
-#   principal_id   = data.aws_identitystore_group.this.group_id
-#   principal_type = "GROUP"
+  principal_id   = aws_identitystore_group.this[each.value.groups].group_id
+  principal_type = "GROUP"
 
-#   target_id   = "123456789012"
-#   target_type = "AWS_ACCOUNT"
-# }
+  target_id   = var.aws_account
+  target_type = "AWS_ACCOUNT"
+}

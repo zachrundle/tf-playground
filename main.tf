@@ -16,6 +16,7 @@ module "eks" {
 
 module "permission_sets" {
   source = "./modules/iam_identity_center"
+  aws_account = var.aws_account
 
   permission_sets = [
     {
